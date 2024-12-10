@@ -54,20 +54,17 @@ public class StdlibFolderBuilder {
 	 */
 	public StdlibFolderBuilder(String name) throws IOException {
 		this.dir = new File("stdlib", name);
-		System.err.println("in " + dir);
 		final File rawFolder = rawFolder();
 
-		final File spritesFile = new File(rawFolder, name + "-def.repx");
-		final File textFile = new File(rawFolder, name + "-abc.repx");
-		final File colorImagesFile = new File(rawFolder, name + "-ghi.repx");
+		final File spritesFile = new File(rawFolder, name.toLowerCase() + "-def.repx");
+		final File textFile = new File(rawFolder, name.toLowerCase() + "-abc.repx");
+		final File colorImagesFile = new File(rawFolder, name.toLowerCase() + "-ghi.repx");
 
 		final String infoString = readInfo(new File(dir, "README.md"));
-		System.err.println("infoString:" + infoString.replace('\n', ' '));
 		this.texts = new DataOutputStream(new FileOutputStream(textFile));
 		texts.writeUTF(infoString);
 
-		if (infoString.contains("LINK=")) {
-			System.err.println("Link!");
+		if (infoString.contains("link=")) {
 			texts.writeUTF(SEPARATOR);
 			texts.close();
 		} else {
